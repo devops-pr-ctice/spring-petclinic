@@ -5,6 +5,7 @@ pipeline{
     tools{
         maven 'MAVEN_3.8.8'
         jdk 'jdk-17'
+        jfrog 'jfrog-cli'
     }
     stages{
         stage('SCM'){
