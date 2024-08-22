@@ -21,8 +21,8 @@ pipeline{
     }
     post{
         success{
-            junit '**/workspace/spring-petclinic/surefire-reports/TEST-org.*.xml'
-            archiveArtifact artifacts: '**/workspace/spring-petclinic/target/spring-petclinic-*.jar'
+            junit testResults: '**/surefire-reports/*.xml'
+            archive '**/target/spring-petclinic-*.jar'
         }
     }
 }
