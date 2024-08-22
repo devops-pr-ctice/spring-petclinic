@@ -22,6 +22,18 @@ pipeline{
                 archiveArtifacts artifacts: '**/target/spring-petclinic-*.jar'
             }
         }
+        stage('Exec Maven commands'){
+            steps{
+                jf 'mvn-config --repo-resolve-releases qtdevs-libs-release --repo-resolve-snapshots qtdevs-libs-snapshots --repo-deploy-releases qtdevs-libs-release-local --repo-deploy-snapshots qtdevs-libs-snapshot-local'
+                // Install and publish project
+                jf 'mvn clean install'
+            }
+        }
+        stage('Publish build info') {
+            steps {
+                jf 'rt build-publish'
+            }
+        }
         stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
@@ -35,7 +47,7 @@ pipeline{
     post{
         success{
             junit testResults: '**/surefire-reports/*.xml'
-            archive '**/target/spring-petclinic-*.jar'
+            archiveArtifacts artifacts: '**/target/spring-petclinic-*.jar'
         }
     }
 }
